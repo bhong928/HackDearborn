@@ -38,6 +38,8 @@ dependencies:
 
   table_calendar: ^3.0.9
 
+  awesome_notifications: ^0.7.4+1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
