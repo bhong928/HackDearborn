@@ -14,15 +14,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Brain Wave',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.grey,
       ),
       home: const MyHomePage(title: 'Epilepsy App'),
@@ -42,12 +33,16 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final CalendarController _controller = CalendarController();
   Color? _headerColor, _viewHeaderColor, _calendarColor;
+
+//Defines a list to hold custom appointments
+  List<Appointment> _customAppointments = [];
+
 //calendar display
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: Container(
+        body: SafeArea(
           child: SfCalendar(
             selectionDecoration: BoxDecoration(
               color: Colors.transparent,
@@ -65,8 +60,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 textStyle: TextStyle(
                     fontSize: 25,
                     fontStyle: FontStyle.normal,
-                    letterSpacing: 5,
-                    color: Color.fromARGB(255, 47, 47, 48),
+                    letterSpacing: 4,
+                    color: Color.fromARGB(255, 207, 207, 223),
                     fontWeight: FontWeight.w500)),
             allowAppointmentResize: true,
             onAppointmentResizeStart: resizeStart,
@@ -86,7 +81,27 @@ class _MyHomePageState extends State<MyHomePage> {
             showWeekNumber: true,
             todayHighlightColor: Color.fromARGB(255, 97, 29, 57),
             firstDayOfWeek: 7,
-            dataSource: EpilepsyLogging(getAppointments()),
+            //dataSource: EpilepsyLogging(getAppointments()),
+            onTap: (calendarTapDetails) {
+              // Handle the calendar tap event
+              if (calendarTapDetails.targetElement ==
+                  CalendarElement.calendarCell) {
+                // Create a new custom appointment with the tapped date and time
+                final newAppointment = Appointment(
+                  startTime: calendarTapDetails.date!,
+                  endTime: calendarTapDetails.date!.add(Duration(minutes: 30)),
+                  subject: 'Seizure Log',
+                  color: Colors.green,
+                );
+
+                // Add the new appointment to the list
+                setState(() {
+                  _customAppointments.add(newAppointment);
+                });
+              }
+            },
+            dataSource:
+                EpilepsyLogging([...getAppointments(), ..._customAppointments]),
           ),
         ),
       ),
@@ -136,35 +151,16 @@ class EpilepsyLogging extends CalendarDataSource {
   EpilepsyLogging(List<Appointment> source) {
     appointments = source;
   }
-
-  @override
-  DateTime getStartTime(int index) {
-    return appointments![index].from;
-  }
-
-  @override
-  DateTime getEndTime(int index) {
-    return appointments![index].to;
-  }
-
-  @override
-  String getSubject(int index) {
-    return appointments![index].eventName;
-  }
-
-  @override
-  Color getColor(int index) {
-    return appointments![index].background;
-  }
-
-  @override
-  bool isAllDay(int index) {
-    return appointments![index].isAllDay;
-  }
 }
 
 class Meeting {
-  Meeting(this.eventName, this.from, this.to, this.background, this.isAllDay);
+  Meeting(
+    this.eventName,
+    this.from,
+    this.to,
+    this.background,
+    this.isAllDay,
+  );
 
   String eventName;
   DateTime from;
