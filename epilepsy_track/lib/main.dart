@@ -40,6 +40,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final CalendarController _controller = CalendarController();
+  Color? _headerColor, _viewHeaderColor, _calendarColor;
 //calendar display
   @override
   Widget build(BuildContext context) {
@@ -47,8 +49,28 @@ class _MyHomePageState extends State<MyHomePage> {
       home: Scaffold(
         body: Container(
           child: SfCalendar(
+            selectionDecoration: BoxDecoration(
+              color: Colors.transparent,
+              border: Border.all(color: Colors.red, width: 2),
+              borderRadius: const BorderRadius.all(Radius.circular(4)),
+              shape: BoxShape.rectangle,
+            ),
+            cellBorderColor: Color.fromARGB(255, 0, 0, 0),
+            backgroundColor: Color.fromARGB(255, 236, 246, 255),
             view: CalendarView.week,
-            todayHighlightColor: Colors.lightBlue,
+            allowedViews: [
+              CalendarView.day,
+              CalendarView.month,
+              CalendarView.schedule,
+              CalendarView.week,
+              CalendarView.timelineDay,
+            ],
+            viewHeaderStyle: ViewHeaderStyle(backgroundColor: _viewHeaderColor),
+            showNavigationArrow: true,
+            showDatePickerButton: true,
+            showCurrentTimeIndicator: true,
+            showWeekNumber: true,
+            todayHighlightColor: Color.fromARGB(255, 97, 29, 57),
             firstDayOfWeek: 7,
             dataSource: EpilepsyLogging(getAppointments()),
           ),
@@ -62,14 +84,15 @@ List<Appointment> getAppointments() {
   List<Appointment> meetings = <Appointment>[];
   final DateTime today = DateTime.now();
   final DateTime startTime =
-      DateTime(today.year, today.month, today.day, 8, 0, 0);
+      DateTime(today.year, today.month, today.day, 0, 10, 0);
   final DateTime endTime = startTime.add(const Duration(hours: 2));
 
+//medication color
   meetings.add(Appointment(
       startTime: startTime,
       endTime: endTime,
       subject: 'Take Medidcation',
-      color: Colors.purple,
+      color: Color.fromARGB(255, 210, 166, 218),
       recurrenceRule: 'FREQ=DAILY;COUNT=365'));
 
   return meetings;
