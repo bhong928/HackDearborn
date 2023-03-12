@@ -65,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
       endTime: endTime,
       subject: 'Take Medidcation',
       color: Colors.blue,
-    recurrenceRule: 'FREQ=DAILY;COUNT=10'));
+    recurrenceRule: 'FREQ=DAILY;COUNT=365'));
 
     return meetings;
   }
