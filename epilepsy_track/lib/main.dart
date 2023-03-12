@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Epilepsy App',
+      title: 'Brain Wave',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -40,14 +40,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+//calendar display
   @override
-  Widget build(BuildContext cotext) {
-    return Scaffold(
-      body: SfCalendar(
-        view: CalendarView.month,
-        firstDayOfWeek: 7,
-        //initialDisplayDate: DateTime(2023,03,11,12,00),
-        dataSource: EpilepsyLogging(getAppointments()),
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: Container(
+          child: SfCalendar(
+            view: CalendarView.week,
+            todayHighlightColor: Colors.lightBlue,
+            firstDayOfWeek: 7,
+            dataSource: EpilepsyLogging(getAppointments()),
+          ),
+        ),
       ),
     );
   }
@@ -57,14 +62,14 @@ List<Appointment> getAppointments() {
   List<Appointment> meetings = <Appointment>[];
   final DateTime today = DateTime.now();
   final DateTime startTime =
-      DateTime(today.year, today.month, today.day, 12, 0, 0); //12,0,0 is 6 pm
+      DateTime(today.year, today.month, today.day, 8, 0, 0);
   final DateTime endTime = startTime.add(const Duration(hours: 2));
 
   meetings.add(Appointment(
       startTime: startTime,
       endTime: endTime,
       subject: 'Take Medidcation',
-      color: Colors.blue,
+      color: Colors.purple,
       recurrenceRule: 'FREQ=DAILY;COUNT=365'));
 
   return meetings;
