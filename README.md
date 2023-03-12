@@ -5,6 +5,8 @@
 
 ## Inspiration
 
+One of our team members has epilepsy and we wanted to make an app that would be convenient for them and other epileptic people.
+
 ## What it does
 
 Brain Wave has the following features:
