@@ -8,6 +8,7 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -16,10 +17,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.grey,
       ),
-      home: const MyHomePage(title: 'Epilepsy App'),
+      home: MyHomePage(title: 'Epilepsy App'),
     );
   }
 }
+
+
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -28,9 +31,12 @@ class MyHomePage extends StatefulWidget {
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
+
+  
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
   final CalendarController _controller = CalendarController();
   Color? _headerColor, _viewHeaderColor, _calendarColor;
 
@@ -56,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
             headerHeight: 100,
             headerStyle: CalendarHeaderStyle(
                 textAlign: TextAlign.center,
-                backgroundColor: Color.fromARGB(255, 155, 44, 44),
+                backgroundColor: Color.fromARGB(255, 135, 33, 141),
                 textStyle: TextStyle(
                     fontSize: 25,
                     fontStyle: FontStyle.normal,
@@ -129,23 +135,61 @@ void resizeEnd(AppointmentResizeEndDetails appointmentResizeEndDetails) {
   CalendarResource? resourceDetails = appointmentResizeEndDetails.resource;
 }
 
+/*
 List<Appointment> getAppointments() {
   List<Appointment> meetings = <Appointment>[];
   final DateTime today = DateTime.now();
-  final DateTime startTime =
-      DateTime(today.year, today.month, today.day, 6, 0, 0);
-  final DateTime endTime = startTime.add(const Duration(hours: 1));
-
+  final DateTime startTime1 =
+      DateTime(today.year, today.month, today.day, 20, 0, 0);
+  final DateTime endTime1 = startTime1.add(const Duration(hours: 1));
+  meetings.add(Appointment(startTime: startTime1, endTime: endTime1, subject: 'Appointment 1', color: Colors.blue));
+final DateTime startTime2 =
+      DateTime(today.year, today.month, today.day, 20, 0, 0);
+  final DateTime endTime2 = startTime2.add(const Duration(hours: 1));
+  meetings.add(Appointment(startTime: startTime2, endTime: endTime2, subject: 'Appointment 2', color: Colors.blue));
 //medication color
   meetings.add(Appointment(
-      startTime: startTime,
-      endTime: endTime,
+      startTime: startTime1,
+      endTime: endTime1,
       subject: 'Take Medidcation',
       color: Color.fromARGB(255, 210, 166, 218),
       recurrenceRule: 'FREQ=DAILY;COUNT=365'));
 
   return meetings;
+}*/
+List<Appointment> getAppointments() {
+  List<Appointment> meetings = <Appointment>[];
+  
+  // Create the first appointment at 8am
+  final DateTime today = DateTime.now();
+  final DateTime morningStartTime =
+      DateTime(today.year, today.month, today.day, 8, 0, 0);
+  final DateTime morningEndTime = morningStartTime.add(const Duration(hours: 1));
+  final Appointment morningMeeting = Appointment(
+    color: Color.fromARGB(255, 230, 135, 247),
+    subject: 'Morning Medication',
+    startTime: morningStartTime,
+    endTime: morningEndTime,
+    recurrenceRule: 'FREQ=DAILY;COUNT=365'
+  );
+  meetings.add(morningMeeting);
+  
+  // Create the second appointment at 8pm
+  final DateTime eveningStartTime =
+      DateTime(today.year, today.month, today.day, 20, 0, 0);
+  final DateTime eveningEndTime = eveningStartTime.add(const Duration(hours: 1));
+  final Appointment eveningMeeting = Appointment(
+    subject: 'Evening Medication',
+    startTime: eveningStartTime,
+    endTime: eveningEndTime,
+    recurrenceRule: 'FREQ=DAILY;COUNT=365'
+    
+  );
+  meetings.add(eveningMeeting);
+  
+  return meetings;
 }
+
 
 class EpilepsyLogging extends CalendarDataSource {
   EpilepsyLogging(List<Appointment> source) {
