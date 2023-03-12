@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart';
-import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -41,34 +41,37 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            TableCalendar(
-              firstDay: DateTime.utc(2010, 10, 16),
-              lastDay: DateTime.utc(2030, 3, 14),
-              focusedDay: DateTime.now(),
-            ),
-            const Text(
-              'Press the button to add text for the current day:',
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Add your logic here to add text for the current day
-        },
-        tooltip: 'Add Text',
-        child: const Icon(Icons.add),
-      ),
-    );
+        @override
+        Widget build (BuildContext cotext){
+        return Scaffold(
+          body: SfCalendar(
+            view: CalendarView.month,
+            firstDayOfWeek: 7,
+            //initialDisplayDate: DateTime(2023,03,11,12,00),
+            dataSource: EpilepsyLogging(getAppointments()),
+          ),
+        );
+        }
   }
+
+  List<Appointment> getAppointments(){
+    List<Appointment> meetings=<Appointment>[];
+    final DateTime today = DateTime.now();
+    final DateTime startTime = DateTime(today.year, today.month, today.day, 6,0,0);
+    final DateTime endTime = startTime.add(const Duration(hours:2));
+
+    meetings.add(Appointment(
+      startTime: startTime,
+      endTime: endTime,
+      subject: 'Take Medidcation',
+      color: Colors.blue,
+    recurrenceRule: 'FREQ=DAILY;COUNT=10'));
+
+    return meetings;
+  }
+
+  class EpilepsyLogging extends CalendarDataSource{
+EpilepsyLogging(List<Appointment> source){
+  appointments = source;
 }
+  }

@@ -37,8 +37,8 @@ dependencies:
   cupertino_icons: ^1.0.2
 
   table_calendar: ^3.0.9
-
-  awesome_notifications: ^0.7.4+1
+  
+  syncfusion_flutter_calendar: ^20.4.53
 
 dev_dependencies:
   flutter_test:
