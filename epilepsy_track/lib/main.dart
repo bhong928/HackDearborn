@@ -57,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Appointment> getAppointments(){
     List<Appointment> meetings=<Appointment>[];
     final DateTime today = DateTime.now();
-    final DateTime startTime = DateTime(today.year, today.month, today.day, 6,0,0);
+    final DateTime startTime = DateTime(today.year, today.month, today.day, 12,0,0); //12,0,0 is 6 pm
     final DateTime endTime = startTime.add(const Duration(hours:2));
 
     meetings.add(Appointment(
