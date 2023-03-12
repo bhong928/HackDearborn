@@ -58,6 +58,20 @@ class _MyHomePageState extends State<MyHomePage> {
             cellBorderColor: Color.fromARGB(255, 0, 0, 0),
             backgroundColor: Color.fromARGB(255, 236, 246, 255),
             view: CalendarView.week,
+            headerHeight: 100,
+            headerStyle: CalendarHeaderStyle(
+                textAlign: TextAlign.center,
+                backgroundColor: Color.fromARGB(255, 155, 44, 44),
+                textStyle: TextStyle(
+                    fontSize: 25,
+                    fontStyle: FontStyle.normal,
+                    letterSpacing: 5,
+                    color: Color.fromARGB(255, 47, 47, 48),
+                    fontWeight: FontWeight.w500)),
+            allowAppointmentResize: true,
+            onAppointmentResizeStart: resizeStart,
+            onAppointmentResizeUpdate: resizeUpdate,
+            onAppointmentResizeEnd: resizeEnd,
             allowedViews: [
               CalendarView.day,
               CalendarView.month,
@@ -80,12 +94,32 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
+void resizeStart(AppointmentResizeStartDetails appointmentResizeStartDetails) {
+  dynamic appointment = appointmentResizeStartDetails.appointment;
+  CalendarResource? resource = appointmentResizeStartDetails.resource;
+}
+
+void resizeUpdate(
+    AppointmentResizeUpdateDetails appointmentResizeUpdateDetails) {
+  dynamic appointment = appointmentResizeUpdateDetails.appointment;
+  DateTime? resizingTime = appointmentResizeUpdateDetails.resizingTime;
+  Offset? resizingOffset = appointmentResizeUpdateDetails.resizingOffset;
+  CalendarResource? resourceDetails = appointmentResizeUpdateDetails.resource;
+}
+
+void resizeEnd(AppointmentResizeEndDetails appointmentResizeEndDetails) {
+  dynamic appointment = appointmentResizeEndDetails.appointment;
+  DateTime? startTime = appointmentResizeEndDetails.startTime;
+  DateTime? endTime = appointmentResizeEndDetails.endTime;
+  CalendarResource? resourceDetails = appointmentResizeEndDetails.resource;
+}
+
 List<Appointment> getAppointments() {
   List<Appointment> meetings = <Appointment>[];
   final DateTime today = DateTime.now();
   final DateTime startTime =
-      DateTime(today.year, today.month, today.day, 0, 10, 0);
-  final DateTime endTime = startTime.add(const Duration(hours: 2));
+      DateTime(today.year, today.month, today.day, 6, 0, 0);
+  final DateTime endTime = startTime.add(const Duration(hours: 1));
 
 //medication color
   meetings.add(Appointment(
